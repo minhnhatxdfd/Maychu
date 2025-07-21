@@ -1,19 +1,31 @@
-- name: Downloading & Installing Essentials
-  run: |
-    cd Scripts
-    cmd /c Downloads.bat
+name: Windows RDP
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 9999
     
-- name: Wait for LiteManager Installation
-  run: |
-    echo "Waiting for LiteManager to complete installation..."
-    timeout /t 120 /nobreak
+    steps:
+    - uses: actions/checkout@v4
     
-- name: Connect to LiteManager
-  run: |
-    cd Scripts
-    cmd /c show.bat
-    
-- name: Keep Alive
-  run: |
-    cd Scripts
-    cmd /c loop.bat
+    - name: Downloading & Installing Essentials
+      run: |
+        cd Scripts
+        cmd /c Downloads.bat
+        
+    - name: Wait for LiteManager Installation
+      run: |
+        echo "Waiting for LiteManager to complete installation..."
+        timeout /t 120 /nobreak
+        
+    - name: Connect to LiteManager
+      run: |
+        cd Scripts
+        cmd /c show.bat
+        
+    - name: Keep Alive
+      run: |
+        cd Scripts
+        cmd /c loop.bat
