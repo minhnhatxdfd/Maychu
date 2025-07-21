@@ -10,13 +10,20 @@ jobs:
     timeout-minutes: 9999
     
     steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      
     - name: Downloading & Installing Essentials
       run: |
-        curl -L -o Downloads.bat "https://gitlab.com/chamod12/1m_win-10_github_rdp/-/raw/main/Downloads.bat"
+        cd Scripts
         cmd /c Downloads.bat
         
     - name: Connect to LiteManager
-      run: cmd /c show.bat
+      run: |
+        cd Scripts
+        cmd /c show.bat
       
     - name: Time Counter
-      run: cmd /c loop.bat
+      run: |
+        cd Scripts
+        cmd /c loop.bat
