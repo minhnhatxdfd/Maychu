@@ -7,11 +7,14 @@ jobs:
     name: Start Building...
     runs-on: windows-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4  # Checkout code repo, bao gồm các file trong Scripts
+
       - name: Downloading & installing Essentials
-        run: |
-          Invoke-WebRequest -Uri "https://gitlab.com/TheDisala/LM_Windows_Github_RDP/-/raw/main/Downloads.bat" -OutFile "Downloads.bat"
-          cmd /c Downloads.bat
+        run: cmd /c Scripts\Downloads.bat  # Chạy file từ thư mục Scripts
+
       - name: Connect to LiteManager
-        run: cmd /c show.bat
+        run: cmd /c Scripts\show.bat
+
       - name: Time Counter
-        run: cmd /c loop.bat
+        run: cmd /c Scripts\loop.bat
