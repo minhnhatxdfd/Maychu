@@ -15,9 +15,18 @@ jobs:
 
       - name: Extract LiteManager ID and Settings
         run: |
-          reg query "HKEY_LOCAL_MACHINE\SYSTEM\LiteManager\v5.0\Server\Parameters" /s > lite_settings.txt  # Lấy tất cả values từ registry key
-          type lite_settings.txt  # Echo ra log để xem ID/pass nếu có
-          # Nếu có file Config.xml (tùy installer), thêm: type "C:\Program Files\LiteManager Pro - Server\Config.xml"
+          # Query key cha để tìm subkey phiên bản và tất cả values (bao gồm ID)
+          reg query "HKEY_LOCAL_MACHINE\SYSTEM\LiteManager" /s > lite_settings.txt
+          type lite_settings.txt  # Echo output registry ra log
+          
+          # Kiểm tra Config.xml cho ID (điều chỉnh path nếu cài ở Program Files (x86))
+          if exist "C:\Program Files\LiteManager Pro - Server\Config.xml" (
+            type "C:\Program Files\LiteManager Pro - Server\Config.xml"
+          ) else if exist "C:\Program Files (x86)\LiteManager Pro - Server\Config.xml" (
+            type "C:\Program Files (x86)\LiteManager Pro - Server\Config.xml"
+          ) else (
+            echo Config.xml not found in default paths.
+          )
 
       - name: Connect to LiteManager
         run: cmd /c Scripts\show.bat
