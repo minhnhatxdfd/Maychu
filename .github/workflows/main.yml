@@ -8,10 +8,16 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # Checkout code repo, bao gồm các file trong Scripts
+        uses: actions/checkout@v4
 
       - name: Downloading & installing Essentials
-        run: cmd /c Scripts\Downloads.bat  # Chạy file từ thư mục Scripts
+        run: cmd /c Scripts\Downloads.bat
+
+      - name: Extract LiteManager ID and Settings
+        run: |
+          reg query "HKEY_LOCAL_MACHINE\SYSTEM\LiteManager\v5.0\Server\Parameters" /s > lite_settings.txt  # Lấy tất cả values từ registry key
+          type lite_settings.txt  # Echo ra log để xem ID/pass nếu có
+          # Nếu có file Config.xml (tùy installer), thêm: type "C:\Program Files\LiteManager Pro - Server\Config.xml"
 
       - name: Connect to LiteManager
         run: cmd /c Scripts\show.bat
